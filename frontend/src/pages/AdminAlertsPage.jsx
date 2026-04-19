@@ -5,7 +5,7 @@ import { alertsAPI } from '../services/api';
 const inputClassName = 'w-full rounded-md border border-control-border bg-control-bg px-3 py-2.5 text-sm text-ink outline-none transition-all duration-150 placeholder:text-ink-muted focus:border-brand focus:ring-2 focus:ring-brand/30 disabled:cursor-not-allowed disabled:opacity-50';
 const selectClassName = inputClassName;
 const textAreaClassName = `${inputClassName} min-h-[108px] resize-y`;
-const primaryButtonClassName = 'inline-flex items-center justify-center rounded-md bg-brand px-4 py-2.5 text-sm font-medium text-white transition-all duration-150 hover:bg-brand-hover active:bg-brand-dark focus:outline-none focus:ring-2 focus:ring-brand/30 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50';
+const primaryButtonClassName = 'inline-flex items-center justify-center rounded-md bg-brand px-4 py-2.5 text-sm font-medium text-surface transition-all duration-150 hover:bg-brand-hover active:bg-brand-dark focus:outline-none focus:ring-2 focus:ring-brand/30 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50';
 const secondaryButtonClassName = 'inline-flex items-center justify-center rounded-md border border-edge bg-surface px-4 py-2.5 text-sm font-medium text-ink-secondary transition-all duration-150 hover:bg-surface-200 active:bg-surface-300 focus:outline-none focus:ring-2 focus:ring-brand/30 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50';
 
 const AUDIENCE_OPTIONS = [
@@ -22,9 +22,9 @@ const LEVEL_OPTIONS = [
 ];
 
 const LEVEL_CLASSNAME = {
-  info: 'bg-blue-50 text-blue-800 border-blue-200',
-  warning: 'bg-amber-50 text-amber-800 border-amber-200',
-  critical: 'bg-red-50 text-red-800 border-red-200',
+  info: 'bg-brand/10 text-brand border-brand/20',
+  warning: 'bg-warning/10 text-warning border-warning/20',
+  critical: 'bg-danger/10 text-danger border-danger/20',
 };
 
 const EMPTY_FORM = {

@@ -612,7 +612,7 @@ export default function AdminUsersListPage() {
             type="button"
             onClick={handleExcelImport}
             disabled={importingExcel}
-            className="rounded-xl bg-brand px-5 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-hover disabled:opacity-60"
+            className="rounded-xl bg-brand px-5 py-2 text-sm font-semibold text-surface shadow-sm transition hover:bg-brand-hover disabled:opacity-60"
           >
             {importingExcel ? 'Importing...' : 'Import Excel'}
           </button>
@@ -634,7 +634,7 @@ export default function AdminUsersListPage() {
             </thead>
             <tbody>
               {rows.map((row, index) => (
-                <tr key={`row-${index}`} className={`border-b border-edge-subtle ${index % 2 === 0 ? 'bg-white' : 'bg-slate-50/60'}`}>
+                <tr key={`row-${index}`} className={`border-b border-edge-subtle ${index % 2 === 0 ? 'bg-surface' : 'bg-surface-200/40'}`}>
                   <td className="px-3 py-2">
                     <input
                       value={row.nom}
@@ -687,7 +687,7 @@ export default function AdminUsersListPage() {
                     <button
                       type="button"
                       onClick={() => removeRow(index)}
-                      className="rounded-lg border border-edge-strong bg-red-50 px-3 py-1.5 text-xs font-medium text-red-700 hover:border-edge-strong hover:bg-red-100"
+                      className="rounded-lg border border-danger/20 bg-danger/10 px-3 py-1.5 text-xs font-medium text-danger hover:border-danger/30 hover:bg-danger/15"
                     >
                       Remove
                     </button>
@@ -709,7 +709,7 @@ export default function AdminUsersListPage() {
           <button
             type="submit"
             disabled={loading}
-            className="rounded-xl bg-emerald-600 px-5 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700 disabled:opacity-60"
+            className="rounded-xl bg-success px-5 py-2 text-sm font-semibold text-surface shadow-sm transition hover:opacity-90 disabled:opacity-60"
           >
             {loading ? 'Creating list...' : 'Create List'}
           </button>

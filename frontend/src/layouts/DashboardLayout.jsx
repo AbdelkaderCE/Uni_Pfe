@@ -17,15 +17,16 @@ import Topbar from '../design-system/components/navigation/Topbar';
 import AlertBanner from '../components/common/AlertBanner';
 import TeacherDashboard from '../pages/TeacherDashboard';
 import StudentDashboard from '../pages/StudentDashboard';
+import { DisciplinaryAlertProvider } from '../contexts/DisciplinaryAlertContext';
 import request from '../services/api';
 import { useAuth } from '../contexts/AuthContext';
 import { hasAnyPermission, hasAnyRole } from '../utils/rbac';
 
-/* ── 11 Modules ─────────────────────────────────────────────── */
+/* ── 10 Modules ─────────────────────────────────────────────── */
 const ALL_MODULES = [
   { nameKey: 'nav.dashboard', path: '/dashboard', roles: ['etudiant', 'enseignant'] },
   { nameKey: 'nav.actualites', path: '/dashboard/actualites', roles: ['etudiant', 'enseignant', 'admin'] },
-  { nameKey: 'nav.projects', path: '/dashboard/projects', roles: ['etudiant', 'enseignant'] },
+  { nameKey: 'nav.pfeWorkspace', path: '/dashboard/pfe-workspace', roles: ['etudiant', 'enseignant', 'admin'] },
   { nameKey: 'nav.ai', path: '/dashboard/ai', roles: ['etudiant', 'enseignant'] },
   { nameKey: 'nav.documents', path: '/dashboard/documents', roles: ['enseignant', 'teacher', 'admin'] },
   {
@@ -48,7 +49,6 @@ const ALL_MODULES = [
   { nameKey: 'nav.support', path: '/dashboard/support', roles: ['etudiant', 'enseignant'] },
   { nameKey: 'nav.adminHub', path: '/admin', roles: ['admin'], permissions: ['users:manage'] },
   { nameKey: 'nav.userManagement', path: '/dashboard/admin/users', roles: ['admin'], permissions: ['users:manage'] },
-  { nameKey: 'nav.pfeManagement', path: '/dashboard/admin/pfe', roles: ['admin'], permissions: ['users:manage'] },
   { nameKey: 'nav.academicStructure', path: '/dashboard/admin/academic/management', roles: ['admin'], permissions: ['departments:manage', 'specialites:manage'] },
   { nameKey: 'nav.academicAssignments', path: '/dashboard/admin/academic/assignments', roles: ['admin'], permissions: ['users:manage', 'roles:assign'] },
   { nameKey: 'nav.siteConfiguration', path: '/dashboard/admin/site-settings', roles: ['admin'], permissions: ['users:manage'] },
@@ -201,41 +201,6 @@ const DashboardLayout = ({ children }) => {
         // Silent fail: some roles do not have access to request inbox endpoints.
       }
 
-      try {
-        if (hasStudentRequestsAccess) {
-          const [choicesResponse, specialiteOptionsResponse] = await Promise.all([
-            request('/api/v1/student/my-choices'),
-            request('/api/v1/student/specialite-options'),
-          ]);
-
-          const choices = Array.isArray(choicesResponse?.data) ? choicesResponse.data : [];
-          const openCampagnes = Array.isArray(specialiteOptionsResponse?.data?.campagnes)
-            ? specialiteOptionsResponse.data.campagnes
-            : [];
-
-          const pendingChoices = countPendingItems(choices);
-          const hasOpenCampagneWithoutChoice = openCampagnes.some((campagne) => {
-            const campagneId = Number(campagne?.id);
-            if (!Number.isFinite(campagneId)) {
-              return false;
-            }
-
-            return !choices.some((choice) => {
-              const choiceCampagneId = Number(choice?.campagne?.id ?? choice?.campagneId);
-              return Number.isFinite(choiceCampagneId) && choiceCampagneId === campagneId;
-            });
-          });
-
-          const projectBadgeCount = pendingChoices > 0 ? pendingChoices : (hasOpenCampagneWithoutChoice ? 1 : 0);
-
-          if (projectBadgeCount > 0) {
-            nextBadges['/dashboard/projects'] = projectBadgeCount;
-          }
-        }
-      } catch {
-        // Silent fail: legacy student specialite endpoints may be disabled for some cohorts.
-      }
-
       if (!cancelled) {
         setModuleBadges((current) => (sameBadgeMap(current, nextBadges) ? current : nextBadges));
       }
@@ -323,17 +288,19 @@ const DashboardLayout = ({ children }) => {
 
         {/* Scrollable content area */}
         <main className="flex-1 overflow-y-auto overflow-x-hidden p-4 lg:p-6">
-          <AlertBanner />
-          {children
-            ? React.Children.map(children, (child) =>
-                React.isValidElement(child) ? React.cloneElement(child, { role }) : child
-              )
-            : (defaultHome === 'student'
-                ? <StudentDashboard role={role} />
-                : defaultHome === 'teacher'
-                  ? <TeacherDashboard role={role} />
-                  : <Navigate to="/admin" replace />)
-          }
+          <DisciplinaryAlertProvider>
+            <AlertBanner />
+            {children
+              ? React.Children.map(children, (child) =>
+                  React.isValidElement(child) ? React.cloneElement(child, { role }) : child
+                )
+              : (defaultHome === 'student'
+                  ? <StudentDashboard role={role} />
+                  : defaultHome === 'teacher'
+                    ? <TeacherDashboard role={role} />
+                    : <Navigate to="/admin" replace />)
+            }
+          </DisciplinaryAlertProvider>
         </main>
       </div>
     </div>

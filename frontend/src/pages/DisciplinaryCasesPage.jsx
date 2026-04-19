@@ -184,15 +184,15 @@ const waitForNodeImages = async (container) => {
 /* ── Status Configs ─────────────────────────────────────────── */
 
 const CASE_STATUS_CONFIG = {
-  pending:    { label: 'Pending Investigation', bg: 'bg-warning/10', text: 'text-warning', border: 'border-warning/30', dot: 'bg-warning' },
-  hearing:    { label: 'En instruction', bg: 'bg-brand-light', text: 'text-brand', border: 'border-edge-strong', dot: 'bg-brand' },
-  sanctioned: { label: 'Sanction Applied', bg: 'bg-danger/10', text: 'text-danger', border: 'border-edge-strong', dot: 'bg-danger' },
-  closed:     { label: 'Case Closed', bg: 'bg-success/10', text: 'text-success', border: 'border-success/30', dot: 'bg-success' },
+  pending:    { label: 'Pending Investigation', bg: 'bg-warning/50', text: 'text-warning', border: 'border-warning/50', dot: 'bg-warning' },
+  hearing:    { label: 'En instruction', bg: 'bg-brand/50', text: 'text-brand', border: 'border-brand/50', dot: 'bg-brand' },
+  sanctioned: { label: 'Sanction Applied', bg: 'bg-danger/50', text: 'text-danger', border: 'border-danger/50', dot: 'bg-danger' },
+  closed:     { label: 'Case Closed', bg: 'bg-success/50', text: 'text-success', border: 'border-success/50', dot: 'bg-success' },
 };
 
 const MEETING_STATUS_CONFIG = {
-  scheduled: { label: 'Scheduled', bg: 'bg-brand-light', text: 'text-brand', border: 'border-edge-strong', dot: 'bg-brand' },
-  finalized: { label: 'Finalized', bg: 'bg-success/10', text: 'text-success', border: 'border-success/30', dot: 'bg-success' },
+  scheduled: { label: 'Scheduled', bg: 'bg-brand/50', text: 'text-brand', border: 'border-brand/50', dot: 'bg-brand' },
+  finalized: { label: 'Finalized', bg: 'bg-success/50', text: 'text-success', border: 'border-success/50', dot: 'bg-success' },
 };
 
 const VIOLATION_TYPES = ['All', 'Plagiarism', 'Exam Fraud', 'Misconduct'];
@@ -818,9 +818,9 @@ function StatusBadge({ status, config }) {
 function StatCard({ label, value, icon, accent = 'brand' }) {
   const accents = {
     brand:   'bg-brand-light text-brand',
-    warning: 'bg-warning/10 text-warning',
-    danger:  'bg-danger/10 text-danger',
-    success: 'bg-success/10 text-success',
+    warning: 'bg-warning/50 text-warning',
+    danger:  'bg-danger/50 text-danger',
+    success: 'bg-success/50 text-success',
   };
   return (
     <div className="bg-surface rounded-lg border border-edge shadow-card p-5 flex items-center gap-4">
@@ -901,7 +901,7 @@ function TeacherQuickReport({
           <button
             type="submit"
             disabled={submitting}
-            className="px-4 py-2 text-sm font-medium text-white bg-brand rounded-md hover:bg-brand-hover active:bg-brand-dark transition-all duration-150 disabled:opacity-60 disabled:cursor-not-allowed"
+            className="px-4 py-2 text-sm font-medium text-surface bg-brand rounded-md hover:bg-brand-hover active:bg-brand-dark transition-all duration-150 disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {submitting ? 'Submitting...' : 'Create Case'}
           </button>
@@ -1228,7 +1228,7 @@ export default function DisciplinaryCasesPage({ role = 'teacher' }) {
     <div className="space-y-6 min-w-0">
 
       {/* Confidential banner */}
-      <div className="flex items-center gap-3 rounded-lg border border-warning/30 bg-warning/10 px-4 py-3">
+      <div className="flex items-center gap-3 rounded-lg border border-warning/50 bg-warning/50 px-4 py-3">
         {icons.lock({ className: 'w-5 h-5 text-warning shrink-0' })}
         <div>
           <p className="text-sm font-medium text-warning">Restricted Access — Confidential Records</p>
@@ -1267,7 +1267,7 @@ export default function DisciplinaryCasesPage({ role = 'teacher' }) {
             </button>
             <button
               onClick={() => goToNewMeeting()}
-              className="px-4 py-2.5 text-sm font-medium text-white bg-brand rounded-md hover:bg-brand-hover active:bg-brand-dark transition-all duration-150 flex items-center gap-2 shadow-sm focus:ring-2 focus:ring-brand/30 focus:ring-offset-2"
+              className="px-4 py-2.5 text-sm font-medium text-surface bg-brand rounded-md hover:bg-brand-hover active:bg-brand-dark transition-all duration-150 flex items-center gap-2 shadow-sm focus:ring-2 focus:ring-brand/30 focus:ring-offset-2"
             >
               {icons.plus({ className: 'w-4 h-4' })}
               New Meeting
@@ -1304,7 +1304,7 @@ export default function DisciplinaryCasesPage({ role = 'teacher' }) {
             onClick={() => setActiveTab(id)}
             className={`px-4 py-1.5 rounded text-sm font-medium transition-all duration-150 flex items-center gap-2 focus:ring-2 focus:ring-brand/30 ${
               activeTab === id
-                ? 'bg-brand text-white shadow-sm'
+                ? 'bg-brand text-surface shadow-sm'
                 : 'text-ink-secondary hover:text-ink hover:bg-surface-300/50'
             }`}
           >
@@ -1576,7 +1576,7 @@ function AddCouncilMemberModal({ meetings = [], staff = [], onClose, onAdded }) 
             <button
               onClick={handleSubmit}
               disabled={submitting || teacherOptions.length === 0}
-              className="px-4 py-2.5 text-sm font-medium text-white bg-brand rounded-md hover:bg-brand-hover active:bg-brand-dark transition-all duration-150 flex items-center gap-2 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2.5 text-sm font-medium text-surface bg-brand rounded-md hover:bg-brand-hover active:bg-brand-dark transition-all duration-150 flex items-center gap-2 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {icons.users({ className: 'w-4 h-4' })}
               {submitting ? 'Adding...' : 'Add Member'}
@@ -1620,7 +1620,7 @@ function CasesTab({
               onClick={() => setFilterStatus(f.key)}
               className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors duration-100 focus:ring-2 focus:ring-brand/30 ${
                 filterStatus === f.key
-                  ? 'bg-brand text-white shadow-sm'
+                  ? 'bg-brand text-surface shadow-sm'
                   : 'text-ink-secondary bg-surface-200 dark:bg-surface-300/30 hover:bg-surface-300 hover:text-ink'
               }`}
             >
@@ -1658,7 +1658,7 @@ function CasesTab({
       <div className="overflow-x-auto">
         <table className="w-full text-sm text-left">
           <thead>
-            <tr className="border-b border-edge-subtle">
+            <tr className="border-b border-edge-subtle bg-surface-200/40 dark:bg-surface-300/30">
               <th className="px-6 py-3 text-xs font-semibold text-ink-muted uppercase tracking-wider">Case ID</th>
               <th className="px-6 py-3 text-xs font-semibold text-ink-muted uppercase tracking-wider">Student</th>
               <th className="px-6 py-3 text-xs font-semibold text-ink-muted uppercase tracking-wider hidden md:table-cell">Violation</th>
@@ -1743,7 +1743,7 @@ function CasesTab({
         <p className="text-xs text-ink-muted">Showing {cases.length} of {allCases.length} cases</p>
         <div className="flex items-center gap-1">
           <button className="px-2.5 py-1 text-xs font-medium text-ink-tertiary bg-surface-200 dark:bg-surface-300/30 rounded hover:bg-surface-300 transition-colors focus:ring-2 focus:ring-brand/30">Prev</button>
-          <button className="px-2.5 py-1 text-xs font-medium text-white bg-brand rounded shadow-sm">1</button>
+          <button className="px-2.5 py-1 text-xs font-medium text-surface bg-brand rounded shadow-sm">1</button>
           <button className="px-2.5 py-1 text-xs font-medium text-ink-tertiary bg-surface-200 dark:bg-surface-300/30 rounded hover:bg-surface-300 transition-colors focus:ring-2 focus:ring-brand/30">Next</button>
         </div>
       </div>
@@ -1773,7 +1773,7 @@ function MeetingsTab({ meetings, cases, filterStatus, setFilterStatus, search, s
               onClick={() => setFilterStatus(f.key)}
               className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors duration-100 focus:ring-2 focus:ring-brand/30 ${
                 filterStatus === f.key
-                  ? 'bg-brand text-white shadow-sm'
+                  ? 'bg-brand text-surface shadow-sm'
                   : 'text-ink-secondary bg-surface-200 dark:bg-surface-300/30 hover:bg-surface-300 hover:text-ink'
               }`}
             >
@@ -1798,7 +1798,7 @@ function MeetingsTab({ meetings, cases, filterStatus, setFilterStatus, search, s
       <div className="overflow-x-auto">
         <table className="w-full text-sm text-left">
           <thead>
-            <tr className="border-b border-edge-subtle">
+            <tr className="border-b border-edge-subtle bg-surface-200/40 dark:bg-surface-300/30">
               <th className="px-6 py-3 text-xs font-semibold text-ink-muted uppercase tracking-wider">Date</th>
               <th className="px-6 py-3 text-xs font-semibold text-ink-muted uppercase tracking-wider">ID</th>
               <th className="px-6 py-3 text-xs font-semibold text-ink-muted uppercase tracking-wider hidden md:table-cell">Participants</th>
@@ -2353,7 +2353,7 @@ function NewMeetingTab({ cases, staff = STAFF_MEMBERS_DEFAULT, preselected = [],
               || selectedReporters.length !== 1
               || saving
             }
-            className="w-full px-4 py-2.5 text-sm font-medium text-white bg-brand rounded-md hover:bg-brand-hover active:bg-brand-dark transition-all duration-150 flex items-center justify-center gap-2 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed focus:ring-2 focus:ring-brand/30 focus:ring-offset-2"
+            className="w-full px-4 py-2.5 text-sm font-medium text-surface bg-brand rounded-md hover:bg-brand-hover active:bg-brand-dark transition-all duration-150 flex items-center justify-center gap-2 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed focus:ring-2 focus:ring-brand/30 focus:ring-offset-2"
           >
             {icons.check({ className: 'w-4 h-4' })}
             {saving ? 'Validating meeting...' : 'Confirm &amp; Validate Meeting'}
@@ -2947,7 +2947,7 @@ function MeetingDetailView({
             <button
               onClick={handleUpdateMeeting}
               disabled={editBusy}
-              className="px-4 py-2.5 text-sm font-medium text-white bg-brand rounded-md hover:bg-brand-hover active:bg-brand-dark transition-all duration-150 flex items-center gap-2 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2.5 text-sm font-medium text-surface bg-brand rounded-md hover:bg-brand-hover active:bg-brand-dark transition-all duration-150 flex items-center gap-2 shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {icons.save({ className: 'w-4 h-4' })}
               {editBusy ? 'Saving changes...' : 'Save Meeting Changes'}
@@ -3065,7 +3065,7 @@ function MeetingDetailView({
           <button
             onClick={handleFinalize}
             disabled={finalizing}
-            className="px-6 py-2.5 text-sm font-medium text-white bg-brand rounded-md hover:bg-brand-hover active:bg-brand-dark transition-all duration-150 flex items-center gap-2 shadow-sm focus:ring-2 focus:ring-brand/30 focus:ring-offset-2"
+            className="px-6 py-2.5 text-sm font-medium text-surface bg-brand rounded-md hover:bg-brand-hover active:bg-brand-dark transition-all duration-150 flex items-center gap-2 shadow-sm focus:ring-2 focus:ring-brand/30 focus:ring-offset-2"
           >
             {icons.check({ className: 'w-4 h-4' })}
             {finalizing ? 'Submitting decision...' : 'Validate Meeting &amp; Record Decision'}

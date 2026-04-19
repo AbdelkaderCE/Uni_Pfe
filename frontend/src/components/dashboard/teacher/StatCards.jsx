@@ -57,16 +57,16 @@ export default function StatCards({ data }) {
       {cards.map((card, index) => (
         <div 
           key={index} 
-          className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-control-border border-control-border flex items-center space-x-4 rtl:space-x-reverse transition-transform hover:-translate-y-1 hover:shadow-lg duration-300 group"
+          className="bg-surface rounded-lg p-6 shadow-card border border-edge flex items-center space-x-4 rtl:space-x-reverse transition-transform hover:-translate-y-1 hover:shadow-lg duration-300 group"
         >
           <div className={`p-4 rounded-xl ${card.lightColor} group-hover:scale-110 transition-transform`}>
             {card.icon}
           </div>
           <div>
-            <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
+            <p className="text-sm font-medium text-ink-muted">
               {card.title}
             </p>
-            <p className="text-3xl font-bold text-slate-800 dark:text-white mt-1">
+            <p className="text-3xl font-bold text-ink mt-1">
               {card.count}
             </p>
           </div>

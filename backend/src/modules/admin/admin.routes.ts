@@ -7,6 +7,7 @@ import {
   deleteAdminUserHandler,
   downloadAdminDocumentHandler,
   getAdminDashboardOverviewHandler,
+  getUniversalHistoryHandler,
   listAdminAnnouncementsHandler,
   listAdminDocumentsHandler,
   listAdminReclamationsHandler,
@@ -54,6 +55,7 @@ router.get("/dashboard/overview", requireAnyPermission(["users:manage"]), getAdm
 router.get("/audit-logs", requireAnyPermission(["users:manage", "reclamations:manage:global"]), listAdminAuditLogsHandler);
 
 router.get("/users", requireAnyPermission(["users:manage"]), listAdminUsersHandler);
+router.get("/users/:userId/history", requireAnyPermission(["users:manage"]), getUniversalHistoryHandler);
 router.patch("/users/:userId/role", requireAnyPermission(["users:manage", "roles:assign"]), updateAdminUserRoleHandler);
 router.delete("/users/:userId", requireAnyPermission(["users:manage"]), deleteAdminUserHandler);
 

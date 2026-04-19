@@ -43,12 +43,12 @@ export default function NoteForm({ student, enseignementId, moduleConfig, onClos
   };
 
   return (
-    <div className="p-6 bg-white dark:bg-slate-800 shadow-inner rounded-b-xl border border-control-border border-control-border">
-      <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-4">
+    <div className="p-6 bg-surface rounded-b-xl shadow-inner border border-control-border">
+      <h3 className="text-lg font-bold text-ink mb-4">
         {t('editNotes')}: {student.nom} {student.prenom}
       </h3>
       
-      {error && <div className="mb-4 text-red-500 bg-red-50 p-3 rounded-lg text-sm">{error}</div>}
+      {error && <div className="mb-4 text-danger bg-danger/10 p-3 rounded-lg text-sm border border-danger/30">{error}</div>}
 
       <form onSubmit={handleSubmit} className="flex flex-wrap gap-4 items-end">
         
@@ -58,7 +58,7 @@ export default function NoteForm({ student, enseignementId, moduleConfig, onClos
           <input 
             type="number" step="0.01" min="0" max="20" required
             value={exam} onChange={(e) => setExam(e.target.value)}
-            className="w-full border border-control-border border-control-border bg-slate-50 dark:bg-slate-900 rounded-lg p-2.5 text-slate-800 dark:text-white outline-none focus:ring-2 focus:ring-blue-500 transition-shadow"
+            className="w-full px-3 py-2.5 text-sm bg-control-bg border border-control-border rounded-md text-ink focus:ring-2 focus:ring-brand/30 focus:border-brand transition-colors"
             placeholder="0.00 - 20.00"
           />
         </div>
@@ -93,14 +93,14 @@ export default function NoteForm({ student, enseignementId, moduleConfig, onClos
           <button 
             type="button" 
             onClick={onClose}
-            className="flex-1 py-2.5 px-4 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold rounded-lg hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors"
+            className="flex-1 py-2.5 px-4 bg-surface border border-edge text-ink-secondary font-bold rounded-lg hover:bg-surface-200 transition-colors"
           >
             {t('cancel')}
           </button>
           <button 
             type="submit" 
             disabled={loading}
-            className="flex-1 py-2.5 px-6 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg shadow-md transition-colors disabled:opacity-50"
+            className="flex-1 py-2.5 px-6 bg-brand hover:bg-brand-hover text-surface font-bold rounded-lg shadow-sm transition-colors disabled:opacity-50"
           >
             {loading ? '...' : t('save')}
           </button>

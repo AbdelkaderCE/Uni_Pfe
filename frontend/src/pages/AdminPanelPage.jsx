@@ -16,49 +16,49 @@ const SIDEBAR_THEME_KEYS = ['slate', 'blue', 'indigo', 'emerald', 'rose'];
 
 const CARD_THEME_STYLES = {
   slate: {
-    card: 'border-slate-200/80 bg-slate-50 hover:bg-slate-100',
-    iconWrap: 'bg-slate-100',
-    icon: 'text-slate-600',
-    title: 'text-slate-800',
-    description: 'text-slate-600',
-    action: 'text-slate-700 group-hover:text-slate-800',
-    actionButton: 'border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 hover:border-slate-300',
+    card: 'border-edge bg-surface hover:bg-surface-200',
+    iconWrap: 'bg-surface-200',
+    icon: 'text-ink-secondary',
+    title: 'text-ink',
+    description: 'text-ink-secondary',
+    action: 'text-ink-tertiary group-hover:text-ink-secondary',
+    actionButton: 'border-edge bg-surface text-ink-tertiary hover:bg-surface-200 hover:border-edge',
   },
   blue: {
-    card: 'border-blue-200/80 bg-blue-50 hover:bg-blue-100',
-    iconWrap: 'bg-blue-100',
-    icon: 'text-blue-600',
-    title: 'text-blue-700',
-    description: 'text-blue-700/80',
-    action: 'text-blue-600 group-hover:text-blue-700',
-    actionButton: 'border-blue-200 bg-blue-50 text-blue-600 hover:bg-blue-100 hover:border-blue-300',
+    card: 'border-edge bg-surface hover:bg-surface-200',
+    iconWrap: 'bg-surface-200',
+    icon: 'text-ink-secondary',
+    title: 'text-ink',
+    description: 'text-ink-secondary',
+    action: 'text-ink-tertiary group-hover:text-ink-secondary',
+    actionButton: 'border-edge bg-surface text-ink-tertiary hover:bg-surface-200 hover:border-edge',
   },
   indigo: {
-    card: 'border-indigo-200/80 bg-indigo-50 hover:bg-indigo-100',
-    iconWrap: 'bg-indigo-100',
-    icon: 'text-indigo-600',
-    title: 'text-indigo-700',
-    description: 'text-indigo-700/80',
-    action: 'text-indigo-600 group-hover:text-indigo-700',
-    actionButton: 'border-indigo-200 bg-indigo-50 text-indigo-600 hover:bg-indigo-100 hover:border-indigo-300',
+    card: 'border-edge bg-surface hover:bg-surface-200',
+    iconWrap: 'bg-surface-200',
+    icon: 'text-ink-secondary',
+    title: 'text-ink',
+    description: 'text-ink-secondary',
+    action: 'text-ink-tertiary group-hover:text-ink-secondary',
+    actionButton: 'border-edge bg-surface text-ink-tertiary hover:bg-surface-200 hover:border-edge',
   },
   emerald: {
-    card: 'border-emerald-200/80 bg-emerald-50 hover:bg-emerald-100',
-    iconWrap: 'bg-emerald-100',
-    icon: 'text-emerald-600',
-    title: 'text-emerald-700',
-    description: 'text-emerald-700/80',
-    action: 'text-emerald-600 group-hover:text-emerald-700',
-    actionButton: 'border-emerald-200 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 hover:border-emerald-300',
+    card: 'border-edge bg-surface hover:bg-surface-200',
+    iconWrap: 'bg-surface-200',
+    icon: 'text-ink-secondary',
+    title: 'text-ink',
+    description: 'text-ink-secondary',
+    action: 'text-ink-tertiary group-hover:text-ink-secondary',
+    actionButton: 'border-edge bg-surface text-ink-tertiary hover:bg-surface-200 hover:border-edge',
   },
   rose: {
-    card: 'border-rose-200/80 bg-rose-50 hover:bg-rose-100',
-    iconWrap: 'bg-rose-100',
-    icon: 'text-rose-600',
-    title: 'text-rose-700',
-    description: 'text-rose-700/80',
-    action: 'text-rose-600 group-hover:text-rose-700',
-    actionButton: 'border-rose-200 bg-rose-50 text-rose-600 hover:bg-rose-100 hover:border-rose-300',
+    card: 'border-edge bg-surface hover:bg-surface-200',
+    iconWrap: 'bg-surface-200',
+    icon: 'text-ink-secondary',
+    title: 'text-ink',
+    description: 'text-ink-secondary',
+    action: 'text-ink-tertiary group-hover:text-ink-secondary',
+    actionButton: 'border-edge bg-surface text-ink-tertiary hover:bg-surface-200 hover:border-edge',
   },
 };
 
@@ -124,23 +124,23 @@ export default function AdminPanelPage() {
 
   return (
     <div className="space-y-6">
-      <header className="relative overflow-hidden rounded-3xl border border-slate-200/80 bg-gradient-to-br from-slate-50 via-white to-sky-50 p-6 shadow-sm sm:p-8">
-        <div className="pointer-events-none absolute -right-10 -top-10 h-36 w-36 rounded-full bg-blue-500/15 blur-2xl" />
-        <div className="pointer-events-none absolute -left-12 bottom-0 h-32 w-32 rounded-full bg-violet-500/10 blur-2xl" />
+      <header className="relative overflow-hidden rounded-3xl border border-edge bg-surface p-6 shadow-sm sm:p-8">
+        <div className="pointer-events-none absolute -right-10 -top-10 h-36 w-36 rounded-full bg-brand/10 blur-2xl" />
+        <div className="pointer-events-none absolute -left-12 bottom-0 h-32 w-32 rounded-full bg-brand/5 blur-2xl" />
 
         <div className="relative">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Administration</p>
-          <h1 className="mt-2 text-3xl font-bold tracking-tight text-slate-900">Admin Control Center</h1>
-          <p className="mt-2 max-w-3xl text-sm text-slate-600">Manage your system efficiently with a modern, centralized control panel.</p>
-          <p className="mt-1 text-xs text-slate-500">Signed in as {user?.prenom} {user?.nom}</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-ink-tertiary">Administration</p>
+          <h1 className="mt-2 text-3xl font-bold tracking-tight text-ink">Admin Control Center</h1>
+          <p className="mt-2 max-w-3xl text-sm text-ink-secondary">Manage your system efficiently with a modern, centralized control panel.</p>
+          <p className="mt-1 text-xs text-ink-tertiary">Signed in as {user?.prenom} {user?.nom}</p>
         </div>
       </header>
 
-      <section className="rounded-3xl border border-slate-200/80 bg-slate-50/80 p-4 shadow-sm sm:p-6">
+      <section className="rounded-3xl border border-edge bg-surface p-4 shadow-sm sm:p-6">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
           <div>
-            <h2 className="text-lg font-semibold text-slate-900">Main Sections</h2>
-            <p className="mt-1 text-sm text-slate-600">Choose a section to continue administration tasks.</p>
+            <h2 className="text-lg font-semibold text-ink">Main Sections</h2>
+            <p className="mt-1 text-sm text-ink-secondary">Choose a section to continue administration tasks.</p>
           </div>
           <Link
             to="/dashboard/admin/site-settings"

@@ -10,6 +10,34 @@ const MIN_ADDITIONAL_COUNCIL_MEMBERS = 0;
 const MAX_ADDITIONAL_COUNCIL_MEMBERS = 10;
 
 const normalizeRole = (role: string) => String(role || "").trim().toLowerCase();
+type GraviteInfractionValue = "faible" | "moyenne" | "grave" | "tres_grave";
+
+const normalizeGraviteInfraction = (value: unknown): GraviteInfractionValue | null => {
+  const normalized = String(value || "")
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, "_");
+
+  if (!normalized) {
+    return null;
+  }
+
+  const graviteMap: Record<string, GraviteInfractionValue> = {
+    faible: "faible",
+    mineure: "faible",
+    minor: "faible",
+    moyenne: "moyenne",
+    medium: "moyenne",
+    grave: "grave",
+    majeure: "grave",
+    major: "grave",
+    tres_grave: "tres_grave",
+    très_grave: "tres_grave",
+    severe: "tres_grave",
+  };
+
+  return graviteMap[normalized] ?? null;
+};
 
 const callerIsAdmin = (req: AuthRequest): boolean =>
   Array.isArray(req.user?.roles) && req.user.roles.some((role) => normalizeRole(role) === ADMIN_ROLE);
@@ -110,13 +138,14 @@ export const listDossiersHandler = async (req: AuthRequest, res: Response, next:
     }
 
     const { status, conseilId, search, gravite, studentId } = req.query;
+    const graviteFilter = normalizeGraviteInfraction(gravite);
 
     const dossiers = await prisma.dossierDisciplinaire.findMany({
       where: {
         ...(!isAdmin && callerEnseignantId ? { enseignantSignalant: callerEnseignantId } : {}),
         ...(status && { status: status as any }),
         ...(conseilId && { conseilId: Number(conseilId) }),
-        ...(gravite && { infraction: { gravite: gravite as any } }),
+        ...(graviteFilter && { infraction: { gravite: graviteFilter } }),
         ...(studentId && { etudiantId: Number(studentId) }),
         ...(search && {
           OR: [
@@ -263,12 +292,13 @@ export const createDossierHandler = async (req: AuthRequest, res: Response, next
       if (existingInfraction) {
         infractionIdToUse = existingInfraction.id;
       } else {
+        const graviteToUse = normalizeGraviteInfraction(gravite) || "moyenne";
         // Create new infraction
         const newInfraction = await prisma.infraction.create({
           data: {
             nom_ar: typeInfraction,
             nom_en: typeInfraction,
-            gravite: (gravite as any) || "moyenne",
+            gravite: graviteToUse,
           },
         });
         infractionIdToUse = newInfraction.id;
@@ -1278,7 +1308,15 @@ export const updateInfractionHandler = async (req: Request, res: Response, next:
       payload.description_en = value || null;
     }
     if (gravite !== undefined) {
-      payload.gravite = gravite;
+      const normalizedGravite = normalizeGraviteInfraction(gravite);
+      if (!normalizedGravite) {
+        res.status(400).json({
+          success: false,
+          error: { message: "gravite invalide. Valeurs autorisées: faible, moyenne, grave, tres_grave." },
+        });
+        return;
+      }
+      payload.gravite = normalizedGravite;
     }
 
     if (payload.nom_ar !== undefined && !payload.nom_ar) {

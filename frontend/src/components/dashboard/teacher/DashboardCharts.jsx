@@ -72,8 +72,8 @@ export default function DashboardCharts({ data }) {
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
       
       {/* Bar Chart for Modules */}
-      <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-control-border border-control-border">
-        <h3 className="text-lg font-semibold text-slate-800 dark:text-white mb-6">
+      <div className="bg-surface p-6 rounded-lg shadow-card border border-edge">
+        <h3 className="text-lg font-semibold text-ink mb-6">
           {t('charts.moduleDistribution')}
         </h3>
         <div ref={barChartWrapRef} className="w-full min-w-0 min-h-[240px]">
@@ -83,14 +83,14 @@ export default function DashboardCharts({ data }) {
                 data={moduleChartData} 
                 margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
               >
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" className="dark:stroke-slate-700" />
-                <XAxis dataKey="name" tick={{fill: '#64748b'}} axisLine={{stroke: '#cbd5e1'}} />
-                <YAxis allowDecimals={false} tick={{fill: '#64748b'}} axisLine={{stroke: '#cbd5e1'}} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--color-edge)" className="dark:stroke-edge" />
+                <XAxis dataKey="name" tick={{fill: 'var(--color-ink-muted)'}} axisLine={{stroke: 'var(--color-edge-subtle)'}} />
+                <YAxis allowDecimals={false} tick={{fill: 'var(--color-ink-muted)'}} axisLine={{stroke: 'var(--color-edge-subtle)'}} />
                 <Tooltip 
                   contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} 
-                  cursor={{fill: '#f1f5f9', className: 'dark:fill-slate-700'}}
+                  cursor={{fill: 'var(--color-surface-200)', className: 'dark:fill-surface-300'}}
                 />
-                <Bar dataKey="value" fill="#3b82f6" radius={[4, 4, 0, 0]} barSize={40} />
+                <Bar dataKey="value" fill="var(--color-brand)" radius={[4, 4, 0, 0]} barSize={40} />
               </BarChart>
             </ResponsiveContainer>
           ) : null}
@@ -98,8 +98,8 @@ export default function DashboardCharts({ data }) {
       </div>
 
       {/* Pie Chart for PFE Stats */}
-      <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-control-border border-control-border">
-        <h3 className="text-lg font-semibold text-slate-800 dark:text-white mb-6">
+      <div className="bg-surface p-6 rounded-lg shadow-card border border-edge">
+        <h3 className="text-lg font-semibold text-ink mb-6">
           {t('charts.pfeStatus')}
         </h3>
         <div ref={pieChartWrapRef} className="w-full min-w-0 min-h-[240px]">

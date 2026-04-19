@@ -98,13 +98,28 @@ export const requireAuth = async (req: AuthRequest, res: Response, next: NextFun
       firstUse: user.firstUse,
     };
 
+    // Debug: Log authenticated user's roles
+    if (process.env.DEBUG_RBAC) {
+      console.log(`[AUTH] User authenticated:`, {
+        userId: req.user.id,
+        email: req.user.email,
+        dbRoles: currentRoles,
+        authorizedRoles: authorization.roles,
+        finalRoles: req.user.roles,
+        coreRole: authorization.coreRole,
+      });
+    }
+
     // Force password change on first use (like friend's mustChangePassword)
+    // Allow API access while still flagging first use for UI
     if (user.firstUse) {
       const isChangingPassword =
         req.method === "POST" && req.originalUrl.includes("/change-password");
       const isLoggingOut = req.originalUrl.includes("/logout");
       const isGettingMe = req.method === "GET" && req.originalUrl.includes("/me");
-      if (!isChangingPassword && !isLoggingOut && !isGettingMe) {
+      const isApiCall = req.originalUrl.startsWith("/api/");
+      // For web UI: enforce password change; for API: allow with flag
+      if (!isApiCall && !isChangingPassword && !isLoggingOut && !isGettingMe) {
         res.status(403).json({
           success: false,
           error: {
@@ -179,6 +194,20 @@ export const requireRole = (allowedRoles: string[]) => {
 
       const hasRole = hasAnyRole(req.user.roles || [], allowedRoles);
       if (!hasRole) {
+        // Detailed debug logging for RBAC mismatch
+        console.error(`[RBAC 403] Access Denied:`, {
+          user: {
+            id: req.user.id,
+            email: req.user.email,
+            roles: req.user.roles,
+            coreRole: req.user.coreRole,
+          },
+          required: {
+            allowedRoles,
+          },
+          endpoint: req.originalUrl,
+          method: req.method,
+        });
         res.status(403).json({
           success: false,
           error: { code: "FORBIDDEN", message: "Insufficient permissions" },

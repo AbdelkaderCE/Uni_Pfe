@@ -147,7 +147,7 @@ export default function AdminAcademicManagementPage() {
             <option value="">Niveau (optional)</option>
             {['L1', 'L2', 'L3', 'M1', 'M2'].map((n) => <option key={n} value={n}>{n}</option>)}
           </select>
-          <button type="button" disabled={saving.specialite || !specialiteForm.nom.trim()} onClick={createSpecialite} className="rounded-xl bg-brand px-4 py-2 text-sm font-semibold text-white disabled:opacity-60">
+          <button type="button" disabled={saving.specialite || !specialiteForm.nom.trim()} onClick={createSpecialite} className="rounded-xl bg-brand px-4 py-2 text-sm font-semibold text-surface disabled:opacity-60">
             {saving.specialite ? 'Creating...' : 'Create Specialite'}
           </button>
         </article>
@@ -161,7 +161,7 @@ export default function AdminAcademicManagementPage() {
           <input className={inputClass} placeholder="Promo or Groupe name" value={promoForm.nom} onChange={(e) => setPromoForm((prev) => ({ ...prev, nom: e.target.value }))} />
           <input className={inputClass} placeholder="Section" value={promoForm.section} onChange={(e) => setPromoForm((prev) => ({ ...prev, section: e.target.value }))} />
           <input className={inputClass} placeholder="Academic year (2025-2026)" value={promoForm.anneeUniversitaire} onChange={(e) => setPromoForm((prev) => ({ ...prev, anneeUniversitaire: e.target.value }))} />
-          <button type="button" disabled={saving.promo || !promoForm.specialiteId} onClick={createPromo} className="rounded-xl bg-brand px-4 py-2 text-sm font-semibold text-white disabled:opacity-60">
+          <button type="button" disabled={saving.promo || !promoForm.specialiteId} onClick={createPromo} className="rounded-xl bg-brand px-4 py-2 text-sm font-semibold text-surface disabled:opacity-60">
             {saving.promo ? 'Creating...' : 'Create Promo/Section'}
           </button>
         </article>
@@ -175,7 +175,7 @@ export default function AdminAcademicManagementPage() {
           <input className={inputClass} placeholder="Module name" value={moduleForm.nom} onChange={(e) => setModuleForm((prev) => ({ ...prev, nom: e.target.value }))} />
           <input className={inputClass} placeholder="Module code" value={moduleForm.code} onChange={(e) => setModuleForm((prev) => ({ ...prev, code: e.target.value }))} />
           <input className={inputClass} type="number" placeholder="Semestre" value={moduleForm.semestre} onChange={(e) => setModuleForm((prev) => ({ ...prev, semestre: e.target.value }))} />
-          <button type="button" disabled={saving.module || !moduleForm.nom.trim() || !moduleForm.code.trim() || !moduleForm.specialiteId} onClick={createModule} className="rounded-xl bg-brand px-4 py-2 text-sm font-semibold text-white disabled:opacity-60">
+          <button type="button" disabled={saving.module || !moduleForm.nom.trim() || !moduleForm.code.trim() || !moduleForm.specialiteId} onClick={createModule} className="rounded-xl bg-brand px-4 py-2 text-sm font-semibold text-surface disabled:opacity-60">
             {saving.module ? 'Creating...' : 'Create Module'}
           </button>
         </article>

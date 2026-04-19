@@ -207,7 +207,7 @@ export default function AdminAcademicAssignmentsPage() {
                       type="button"
                       disabled={!!savingStudentByUserId[student.userId]}
                       onClick={() => saveStudentAssignment(student.userId)}
-                      className="rounded-lg bg-brand px-3 py-2 text-xs font-semibold text-white disabled:opacity-60"
+                      className="rounded-lg bg-brand px-3 py-2 text-xs font-semibold text-surface disabled:opacity-60"
                     >
                       {savingStudentByUserId[student.userId] ? 'Saving...' : 'Save'}
                     </button>
@@ -271,7 +271,7 @@ export default function AdminAcademicAssignmentsPage() {
                           return (
                             <label
                               key={`teacher-module-${teacher.userId}-${module.id}`}
-                              className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs ${checked ? 'border-edge-strong bg-brand-light text-brand' : 'border-edge bg-white text-ink-secondary'}`}
+                              className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs ${checked ? 'border-edge-strong bg-brand-light text-brand' : 'border-edge bg-surface text-ink-secondary'}`}
                             >
                               <input
                                 type="checkbox"
@@ -293,7 +293,7 @@ export default function AdminAcademicAssignmentsPage() {
                     type="button"
                     disabled={!!savingTeacherByUserId[teacher.userId]}
                     onClick={() => saveTeacherAssignment(teacher.userId)}
-                    className="rounded-lg bg-brand px-3 py-2 text-xs font-semibold text-white disabled:opacity-60"
+                    className="rounded-lg bg-brand px-3 py-2 text-xs font-semibold text-surface disabled:opacity-60"
                   >
                     {savingTeacherByUserId[teacher.userId] ? 'Saving...' : 'Save Teacher Assignment'}
                   </button>

@@ -29,12 +29,12 @@ import ProfilePage from './pages/ProfilePage';
 import DisciplinaryCasesPage from './pages/DisciplinaryCasesPage';
 import AdminUsersPage from './pages/AdminUsersPage';
 import AdminUsersListPage from './pages/AdminUsersListPage';
+import UniversalHistoryPage from './pages/admin/UniversalHistoryPage';
 import AdminPanelPage from './pages/AdminPanelPage';
 import AdminAcademicManagementPage from './pages/AdminAcademicManagementPage';
 import AdminAcademicAssignmentsPage from './pages/AdminAcademicAssignmentsPage';
 import AdminSiteSettingsPage from './pages/AdminSiteSettingsPage';
 import AdminAlertsPage from './pages/AdminAlertsPage';
-import PfeManagementPage from './pages/admin/PfeManagementPage';
 import AIAssistantPage from './pages/AIAssistantPage';
 import DocumentsPage from './pages/DocumentsPage';
 import StudentNotesPage from './pages/StudentNotesPage';
@@ -44,6 +44,7 @@ import ProjectsPage from './pages/PFE/ProjectsPage';
 import SubjectsPage from './pages/PFE/SubjectsPage';
 import GroupsPage from './pages/PFE/GroupsPage';
 import DefensePage from './pages/PFE/DefensePage';
+import PFEWorkspacePage from './pages/PFE/PFEWorkspacePage';
 
 /* ── Misc ── */
 import UnauthorizedPage from './pages/UnauthorizedPage';
@@ -174,6 +175,7 @@ function App() {
               <Route path="/dashboard/projects/subjects" element={<ProtectedRoute><DashboardLayout><SubjectsPage /></DashboardLayout></ProtectedRoute>} />
               <Route path="/dashboard/projects/groups" element={<ProtectedRoute><DashboardLayout><GroupsPage /></DashboardLayout></ProtectedRoute>} />
               <Route path="/dashboard/projects/defense" element={<ProtectedRoute><DashboardLayout><DefensePage /></DashboardLayout></ProtectedRoute>} />
+              <Route path="/dashboard/pfe-workspace" element={<ProtectedRoute><DashboardLayout><PFEWorkspacePage /></DashboardLayout></ProtectedRoute>} />
               <Route path="/dashboard/notes" element={<ProtectedRoute><DashboardLayout><StudentNotesPage /></DashboardLayout></ProtectedRoute>} />
               <Route path="/dashboard/specialite-choice" element={<ProtectedRoute><DashboardLayout><StudentSpecialiteChoicePage /></DashboardLayout></ProtectedRoute>} />
               <Route path="/dashboard/requests" element={<ProtectedRoute><DashboardLayout><RequestsPage /></DashboardLayout></ProtectedRoute>} />
@@ -210,6 +212,18 @@ function App() {
                     accessMode="any"
                   >
                     <DashboardLayout><AdminUsersPage /></DashboardLayout>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/dashboard/admin/users/:userId/history"
+                element={
+                  <ProtectedRoute
+                    allowedRoles={['admin']}
+                    requiredPermissions={['users:manage']}
+                    accessMode="any"
+                  >
+                    <DashboardLayout><UniversalHistoryPage /></DashboardLayout>
                   </ProtectedRoute>
                 }
               />
@@ -279,7 +293,7 @@ function App() {
                   <ProtectedRoute
                     allowedRoles={['admin']}
                   >
-                    <DashboardLayout><PfeManagementPage /></DashboardLayout>
+                    <Navigate to="/dashboard/pfe-workspace" replace />
                   </ProtectedRoute>
                 }
               />

@@ -1,8 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { AlertTriangle, Info, OctagonAlert, X } from 'lucide-react';
 import { alertsAPI } from '../../services/api';
+import DisciplinaryMeetingAlert from './DisciplinaryMeetingAlert';
+import { useDisciplinaryAlerts } from '../../contexts/DisciplinaryAlertContext';
 
 const DISMISS_STORAGE_KEY = 'dismissedAlerts';
+const DISMISS_MEETING_STORAGE_KEY = 'dismissedMeetingAlerts';
 
 const LEVEL_STYLES = {
   info: {
@@ -28,27 +31,36 @@ const LEVEL_STYLES = {
   },
 };
 
-function readDismissed() {
+function readDismissed(key) {
   try {
-    const raw = sessionStorage.getItem(DISMISS_STORAGE_KEY);
+    const raw = sessionStorage.getItem(key);
     return raw ? new Set(JSON.parse(raw)) : new Set();
   } catch {
     return new Set();
   }
 }
 
-function persistDismissed(set) {
+function persistDismissed(key, set) {
   try {
-    sessionStorage.setItem(DISMISS_STORAGE_KEY, JSON.stringify(Array.from(set)));
+    sessionStorage.setItem(key, JSON.stringify(Array.from(set)));
   } catch {
     /* storage quota exceeded — dismissal is best-effort */
   }
 }
 
-const AlertBanner = () => {
+/**
+ * EnhancedAlertBanner — Unified alert display
+ * Shows both system alerts + disciplinary meeting alerts
+ * All colors use platform tokens for dark mode support
+ */
+const EnhancedAlertBanner = () => {
   const [alerts, setAlerts] = useState([]);
-  const [dismissed, setDismissed] = useState(() => readDismissed());
+  const [dismissed, setDismissed] = useState(() => readDismissed(DISMISS_STORAGE_KEY));
+  const [dismissedMeetings, setDismissedMeetings] = useState(() =>
+    readDismissed(DISMISS_MEETING_STORAGE_KEY)
+  );
 
+  // Fetch system alerts
   useEffect(() => {
     let cancelled = false;
 
@@ -71,30 +83,57 @@ const AlertBanner = () => {
     };
   }, []);
 
-  const visible = useMemo(
+  // Get disciplinary meeting alerts from context
+  const { meetings: disciplinaryMeetings } = useDisciplinaryAlerts();
+
+  // Filter visible system alerts
+  const visibleAlerts = useMemo(
     () => alerts.filter((alert) => !dismissed.has(alert.id)),
     [alerts, dismissed]
   );
 
-  if (!visible.length) return null;
+  // Filter visible meeting alerts
+  const visibleMeetings = useMemo(
+    () => disciplinaryMeetings.filter((meeting) => !dismissedMeetings.has(meeting.id)),
+    [disciplinaryMeetings, dismissedMeetings]
+  );
 
-  const handleDismiss = (id) => {
+  if (!visibleAlerts.length && !visibleMeetings.length) return null;
+
+  const handleDismissAlert = (id) => {
     const next = new Set(dismissed);
     next.add(id);
     setDismissed(next);
-    persistDismissed(next);
+    persistDismissed(DISMISS_STORAGE_KEY, next);
+  };
+
+  const handleDismissMeeting = (id) => {
+    const next = new Set(dismissedMeetings);
+    next.add(id);
+    setDismissedMeetings(next);
+    persistDismissed(DISMISS_MEETING_STORAGE_KEY, next);
   };
 
   return (
-    <div className="space-y-2 mb-4">
-      {visible.map((alert) => {
+    <div className="space-y-3 mb-6">
+      {/* Meeting alerts first (higher priority) */}
+      {visibleMeetings.map((meeting) => (
+        <DisciplinaryMeetingAlert
+          key={`meeting-${meeting.id}`}
+          meeting={meeting}
+          onDismiss={handleDismissMeeting}
+        />
+      ))}
+
+      {/* System alerts */}
+      {visibleAlerts.map((alert) => {
         const style = LEVEL_STYLES[alert.level] || LEVEL_STYLES.info;
         const Icon = style.icon;
         return (
           <div
             key={alert.id}
             role="alert"
-            className={`relative flex items-start gap-3 rounded-lg overflow-hidden ${style.container}`}
+            className={`relative flex items-start gap-3 rounded-lg overflow-hidden transition-all hover:shadow-md ${style.container}`}
           >
             {/* Accent stripe */}
             <div className={`absolute left-0 top-0 bottom-0 w-1 ${style.accentStripe}`} />
@@ -111,7 +150,7 @@ const AlertBanner = () => {
             {/* Dismiss button */}
             <button
               type="button"
-              onClick={() => handleDismiss(alert.id)}
+              onClick={() => handleDismissAlert(alert.id)}
               aria-label="Dismiss alert"
               className="flex-shrink-0 p-1.5 rounded-lg hover:bg-surface-200 dark:hover:bg-surface-300/50 transition mr-2 my-1"
             >
@@ -124,4 +163,4 @@ const AlertBanner = () => {
   );
 };
 
-export default AlertBanner;
+export default EnhancedAlertBanner;

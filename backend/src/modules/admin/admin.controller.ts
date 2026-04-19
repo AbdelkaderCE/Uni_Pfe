@@ -9,6 +9,7 @@ import {
   deleteUser,
   getDashboardOverview,
   getDocumentDownloadInfo,
+  getUserUniversalHistory,
   listAnnouncements,
   listDocuments,
   listReclamations,
@@ -484,5 +485,42 @@ export const deleteAdminDocumentHandler = async (req: AuthRequest, res: Response
     });
   } catch (error: unknown) {
     handleControllerError(res, error, "ADMIN_DELETE_DOCUMENT_FAILED");
+  }
+};
+
+/* ─────────────────────────────────────────────────────────────
+   UNIVERSAL HISTORY HANDLER
+   ───────────────────────────────────────────────────────────── */
+
+export const getUniversalHistoryHandler = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const userId = parsePositiveInt(req.params.userId);
+
+    if (!userId) {
+      res.status(400).json({
+        success: false,
+        error: {
+          code: "INVALID_USER_ID",
+          message: "A valid user ID is required",
+        },
+      });
+      return;
+    }
+
+    const result = await getUserUniversalHistory(userId);
+
+    // Convert the result to plain object and handle Date serialization
+    const plainResult = JSON.parse(JSON.stringify(result));
+
+    res.status(200).json({
+      success: true,
+      data: plainResult,
+      message: "User history retrieved successfully",
+    });
+  } catch (error: unknown) {
+    console.error("getUniversalHistoryHandler error:", error);
+    const message = error instanceof Error ? error.message : "Unknown error";
+    console.error("Error details:", message);
+    handleControllerError(res, error, "ADMIN_GET_HISTORY_FAILED");
   }
 };

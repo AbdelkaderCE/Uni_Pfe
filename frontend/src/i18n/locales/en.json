@@ -6,6 +6,7 @@
   "nav": {
     "dashboard": "Dashboard",
     "actualites": "News",
+    "pfeWorkspace": "PFE Workspace",
     "projects": "Projects",
     "ai": "AI Assistant",
     "documents": "Documents",
@@ -484,5 +485,33 @@
     "noClaims": "No recent claims.",
     "inProgress": "In progress",
     "viewAllClaims": "View all claims →"
+  },
+  "universalHistory": {
+    "title": "User History",
+    "backToUsers": "Back to Users",
+    "loading": "Loading user history...",
+    "noData": "No user data found",
+    "noHistory": "No history available for this user",
+    "memberSince": "Member Since",
+    "noItems": "No items in this category yet",
+    "viewDetails": "View details",
+    "tabs": {
+      "disciplinedStudents": "Disciplined Students",
+      "proposedProjects": "Proposed Projects",
+      "documentsRequested": "Documents Demanded",
+      "reclamations": "Reclamations",
+      "justifications": "Justifications",
+      "pfeJourney": "PFE Journey",
+      "disciplinaryHistory": "Disciplinary History"
+    },
+    "statuses": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "submitted": "Submitted",
+      "inProgress": "In Progress",
+      "completed": "Completed"
+    }
   }
 }
+

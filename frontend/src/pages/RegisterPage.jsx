@@ -289,9 +289,9 @@ export default function RegisterPage() {
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-xs font-medium text-ink-secondary">{t('register.passwordStrength')}</span>
                       <span className={`text-xs font-semibold px-2 py-0.5 rounded-full
-                        ${strengthLabel === 'weak' ? 'bg-danger/10 text-danger' :
-                          strengthLabel === 'medium' ? 'bg-warning/10 text-warning' :
-                          'bg-success/10 text-success'}`}>
+                        ${strengthLabel === 'weak' ? 'bg-danger/50 text-danger' :
+                          strengthLabel === 'medium' ? 'bg-warning/50 text-warning' :
+                          'bg-success/50 text-success'}`}>
                         {t(`register.${strengthLabel}`)}
                       </span>
                     </div>

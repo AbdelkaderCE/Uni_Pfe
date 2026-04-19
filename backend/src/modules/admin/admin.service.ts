@@ -1572,3 +1572,266 @@ export const deleteDocument = async (kind: AdminDocumentKind, id: number) => {
     deleted: true,
   };
 };
+
+/* ─────────────────────────────────────────────────────────────
+   UNIVERSAL HISTORY ENDPOINT
+   ───────────────────────────────────────────────────────────── */
+
+export type HistoryEntry = {
+  id: string;
+  date: Date;
+  category: string;
+  title: string;
+  status: string;
+  description?: string;
+};
+
+export type UserHistoryResponse = {
+  user: {
+    id: number;
+    name: string;
+    email: string;
+    role: AdminPanelRole;
+    status: string;
+    department?: string;
+    joinedAt: Date;
+  };
+  role: AdminPanelRole;
+  tabs: Array<{
+    id: string;
+    label: string;
+    icon: string;
+    items: HistoryEntry[];
+    total: number;
+  }>;
+};
+
+export const getUserUniversalHistory = async (userId: number): Promise<UserHistoryResponse> => {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    include: {
+      userRoles: {
+        include: {
+          role: {
+            select: { nom: true },
+          },
+        },
+      },
+      enseignant: true,
+      etudiant: {
+        include: {
+          promo: true,
+        },
+      },
+    },
+  });
+
+  if (!user) {
+    throw new AdminServiceError("User not found", 404, "USER_NOT_FOUND");
+  }
+
+  const roleNames = (user.userRoles || [])
+    .map((ur: any) => ur.role?.nom)
+    .filter((name: any): name is string => Boolean(name));
+  const canonicalRole = toCanonicalRole(roleNames);
+
+  const department = (user.etudiant as any)?.promo?.nom_ar || undefined;
+
+  const baseResponse: UserHistoryResponse = {
+    user: {
+      id: user.id,
+      name: `${user.prenom} ${user.nom}`,
+      email: user.email,
+      role: canonicalRole,
+      status: user.status,
+      department,
+      joinedAt: user.createdAt,
+    },
+    role: canonicalRole,
+    tabs: [],
+  };
+
+  if (canonicalRole === "teacher" && (user.enseignant as any)) {
+    const enseignantId = (user.enseignant as any).id;
+
+    const [disciplinaryData, projectsData, documentsData] = await Promise.all([
+      // Disciplinary files where this teacher reported
+      prisma.dossierDisciplinaire.findMany({
+        where: {
+          enseignantSignalant: enseignantId,
+        },
+        include: {
+          etudiant: {
+            include: {
+              user: true,
+            },
+          },
+        },
+        orderBy: { createdAt: "desc" },
+        take: 100,
+      }),
+      // Proposed Projects (PFE subjects)
+      prisma.pfeSujet.findMany({
+        where: {
+          enseignantId: enseignantId,
+        },
+        orderBy: { createdAt: "desc" },
+        take: 100,
+      }),
+      // Documents Requested
+      prisma.documentRequest.findMany({
+        where: {
+          enseignantId: enseignantId,
+        },
+        orderBy: { dateDemande: "desc" },
+        take: 100,
+      }),
+    ]);
+
+    baseResponse.tabs = [
+      {
+        id: "disciplinary",
+        label: "Disciplined Students",
+        icon: "AlertTriangle",
+        items: disciplinaryData.map((dc: any) => ({
+          id: `case-${dc.id}`,
+          date: dc.createdAt,
+          category: "Disciplinary Case",
+          title: `${dc.etudiant?.user?.prenom || ""} ${dc.etudiant?.user?.nom || ""}`,
+          status: dc.status || "signale",
+          description: dc.descriptionSignal_ar || dc.descriptionSignal_en || undefined,
+        })),
+        total: disciplinaryData.length,
+      },
+      {
+        id: "projects",
+        label: "Proposed Projects",
+        icon: "BookOpen",
+        items: projectsData.map((project: any) => ({
+          id: `project-${project.id}`,
+          date: project.createdAt,
+          category: "PFE Subject",
+          title: project.titre_ar || project.titre_en || "Untitled",
+          status: project.status || "propose",
+          description: project.description_ar || project.description_en || undefined,
+        })),
+        total: projectsData.length,
+      },
+      {
+        id: "documents",
+        label: "Documents Demanded",
+        icon: "FileText",
+        items: documentsData.map((doc: any) => ({
+          id: `doc-${doc.id}`,
+          date: doc.dateDemande || doc.createdAt || new Date(0),
+          category: "Document Request",
+          title: doc.description_ar || doc.description_en || "Document Request",
+          status: doc.status || "en_attente",
+          description: undefined,
+        })),
+        total: documentsData.length,
+      },
+    ];
+  } else if (canonicalRole === "student" && (user.etudiant as any)) {
+    const etudiantId = (user.etudiant as any).id;
+
+    const [reclamationsData, justificationsData, voeuData, disciplinaryData] = await Promise.all([
+      // Reclamations (grade/admin appeals)
+      prisma.reclamation.findMany({
+        where: {
+          etudiantId: etudiantId,
+        },
+        orderBy: { createdAt: "desc" },
+        take: 100,
+      }),
+      // Justifications
+      prisma.justification.findMany({
+        where: {
+          etudiantId: etudiantId,
+        },
+        orderBy: { createdAt: "desc" },
+        take: 100,
+      }),
+      // PFE Journey (voeux - wishes/choices)
+      prisma.voeu.findMany({
+        where: {
+          etudiantId: etudiantId,
+        },
+        include: {
+          specialite: true,
+        },
+        orderBy: { dateSaisie: "desc" },
+        take: 100,
+      }),
+      // Disciplinary History
+      prisma.dossierDisciplinaire.findMany({
+        where: {
+          etudiantId: etudiantId,
+        },
+        orderBy: { createdAt: "desc" },
+        take: 100,
+      }),
+    ]);
+
+    baseResponse.tabs = [
+      {
+        id: "reclamations",
+        label: "Reclamations",
+        icon: "FileQuestion",
+        items: reclamationsData.map((rec: any) => ({
+          id: `reclamation-${rec.id}`,
+          date: rec.createdAt,
+          category: "Reclamation",
+          title: rec.objet_ar || rec.objet_en || "Appeal",
+          status: rec.status,
+          description: rec.description_ar || rec.description_en || undefined,
+        })),
+        total: reclamationsData.length,
+      },
+      {
+        id: "justifications",
+        label: "Justifications",
+        icon: "CheckCircle",
+        items: justificationsData.map((just: any) => ({
+          id: `justification-${just.id}`,
+          date: just.createdAt,
+          category: "Justification",
+          title: just.motif_ar || just.motif_en || "Justification",
+          status: just.status || "soumis",
+          description: just.details_ar || just.details_en || undefined,
+        })),
+        total: justificationsData.length,
+      },
+      {
+        id: "pfe-journey",
+        label: "PFE Choices",
+        icon: "Briefcase",
+        items: voeuData.map((voeu: any) => ({
+          id: `voeu-${voeu.id}`,
+          date: voeu.dateSaisie,
+          category: "Specialite Choice",
+          title: voeu.specialite?.nom_ar || voeu.specialite?.nom_en || "Specialite",
+          status: voeu.status || "en_attente",
+          description: `Ordre: ${voeu.ordre}`,
+        })),
+        total: voeuData.length,
+      },
+      {
+        id: "disciplinary",
+        label: "Disciplinary History",
+        icon: "AlertTriangle",
+        items: disciplinaryData.map((dc: any) => ({
+          id: `discipline-${dc.id}`,
+          date: dc.createdAt,
+          category: "Disciplinary Case",
+          title: dc.descriptionSignal_ar || dc.descriptionSignal_en || "Case",
+          status: dc.status || "signale",
+          description: undefined,
+        })),
+        total: disciplinaryData.length,
+      },
+    ];
+  }
+
+  return baseResponse;
+};

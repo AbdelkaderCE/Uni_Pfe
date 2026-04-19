@@ -106,7 +106,7 @@ export default function ReportStudentModal({ student, open, onClose, onSubmitted
             <button
               type="submit"
               disabled={submitting}
-              className="px-4 py-2 text-sm font-medium text-white bg-brand rounded-md hover:bg-brand-hover active:bg-brand-dark disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+              className="px-4 py-2 text-sm font-medium text-surface bg-brand rounded-md hover:bg-brand-hover active:bg-brand-dark disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
             >
               {submitting ? 'Submitting…' : 'Open case'}
             </button>

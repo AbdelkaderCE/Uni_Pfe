@@ -12,6 +12,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import ProfileCard from '../../components/dashboard/student/ProfileCard';
 import GroupePromoCard from '../../components/dashboard/student/GroupePromoCard';
 import CoursesGrid from '../../components/dashboard/student/CoursesGrid';
+import EnhancedAlertBanner from '../../components/common/EnhancedAlertBanner';
 import { studentDashboardService } from '../../services/studentDashboard';
 
 export default function StudentDashboard() {
@@ -52,6 +53,8 @@ export default function StudentDashboard() {
 
   return (
     <div className="space-y-6">
+      <EnhancedAlertBanner />
+
       <header className="bg-surface rounded-lg border border-edge shadow-card p-6">
         <h1 className="text-xl font-bold text-ink tracking-tight">
           Welcome, {greetingName}
@@ -62,7 +65,7 @@ export default function StudentDashboard() {
       </header>
 
       {error && (
-        <div className="bg-danger/10 border border-danger/30 text-danger text-sm px-4 py-3 rounded-md">
+        <div className="bg-danger/50 border border-danger/50 text-danger text-sm px-4 py-3 rounded-md">
           {error}
         </div>
       )}

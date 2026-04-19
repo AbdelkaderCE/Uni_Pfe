@@ -1122,7 +1122,7 @@ export default function AdminUsersPage() {
                 <button
                   type="button"
                   onClick={() => copyToClipboard(lastCreatedCredentials.tempPassword, 'Temporary password copied to clipboard.')}
-                  className="px-3 py-2 rounded-md bg-brand text-white text-sm font-medium"
+                  className="px-3 py-2 rounded-md bg-brand text-surface text-sm font-medium"
                 >
                   Copy Password
                 </button>

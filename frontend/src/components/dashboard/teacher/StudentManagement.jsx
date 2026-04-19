@@ -55,8 +55,8 @@ export default function StudentManagement({ enseignements }) {
   return (
     <div className="space-y-6">
       {/* Module Selector Header */}
-      <div className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-sm border border-control-border border-control-border flex flex-col sm:flex-row justify-between items-center gap-4">
-        <h2 className="text-xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
+      <div className="bg-surface p-6 rounded-lg shadow-card border border-edge flex flex-col sm:flex-row justify-between items-center gap-4">
+        <h2 className="text-xl font-bold text-ink flex items-center gap-2">
           <svg className="w-6 h-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
           </svg>
@@ -82,7 +82,7 @@ export default function StudentManagement({ enseignements }) {
       </div>
 
       {/* Navigation Pills */}
-      <div className="flex bg-white dark:bg-slate-800 p-1.5 rounded-lg border border-control-border border-control-border mx-auto w-max mb-6 shadow-sm">
+      <div className="flex bg-surface p-1.5 rounded-lg border border-edge mx-auto w-max mb-6 shadow-sm">
         <button
           onClick={() => setActiveBoard('students')}
           className={`px-6 py-2 text-sm font-bold rounded-md transition-colors ${
@@ -111,7 +111,7 @@ export default function StudentManagement({ enseignements }) {
 
       {/* Main Student Data Area */}
       {loading ? (
-        <div className="animate-pulse bg-white dark:bg-slate-800 p-6 rounded-xl h-64 flex justify-center items-center">
+        <div className="animate-pulse bg-surface p-6 rounded-lg h-64 flex justify-center items-center border border-edge">
           <div className="text-slate-400 dark:text-slate-500 font-medium">{t('moduleLoading')}</div>
         </div>
       ) : error ? (

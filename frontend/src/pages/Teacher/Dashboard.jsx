@@ -145,7 +145,7 @@ export default function TeacherDashboard() {
           {hasPresidentMembership && (
             <button
               onClick={() => navigate('/dashboard/discipline/president')}
-              className="px-4 py-2 text-sm font-medium text-white bg-brand rounded-md hover:bg-brand-hover transition-colors"
+              className="px-4 py-2 text-sm font-medium text-surface bg-brand rounded-md hover:bg-brand-hover transition-colors"
             >
               Open Decision Panel
             </button>
@@ -175,13 +175,13 @@ export default function TeacherDashboard() {
       </section>
 
       {error && (
-        <div className="bg-danger/10 border border-danger/30 text-danger text-sm px-4 py-3 rounded-md">
+        <div className="bg-danger/50 border border-danger/50 text-danger text-sm px-4 py-3 rounded-md">
           {error}
         </div>
       )}
 
       {toast && (
-        <div className="bg-success/10 border border-success/30 text-success text-sm px-4 py-3 rounded-md">
+        <div className="bg-success/50 border border-success/50 text-success text-sm px-4 py-3 rounded-md">
           {toast}
         </div>
       )}

@@ -1344,7 +1344,7 @@ export const listStudentPanelDocuments = async (
   if (searchTerm) {
     const searchPattern = `%${searchTerm}%`;
     documentConditions.push(
-      Prisma.sql`(d.file_name ILIKE ${searchPattern} OR r.objet ILIKE ${searchPattern})`
+      Prisma.sql`(d.file_name ILIKE ${searchPattern} OR r.objet_ar ILIKE ${searchPattern} OR r.objet_en ILIKE ${searchPattern})`
     );
   }
 
@@ -1357,7 +1357,7 @@ export const listStudentPanelDocuments = async (
       d.mime_type AS "mimeType",
       d.file_size AS "fileSize",
       d.created_at AS "createdAt",
-      r.objet AS "reclamationTitle"
+      COALESCE(r.objet_ar, r.objet_en) AS "reclamationTitle"
     FROM student_reclamation_documents d
     INNER JOIN reclamations r ON r.id = d.reclamation_id
     WHERE ${Prisma.join(documentConditions, " AND ")}

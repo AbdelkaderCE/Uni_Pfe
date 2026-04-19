@@ -119,9 +119,9 @@ function normalizeJustification(item) {
 const STATUS_CONFIG = {
   draft:          { label: 'Draft',        bg: 'bg-surface-200',                        text: 'text-ink-tertiary', border: 'border-edge',                               dot: 'bg-ink-muted'  },
   submitted:      { label: 'Submitted',    bg: 'bg-brand-light',                         text: 'text-brand',        border: 'border-edge-strong',                           dot: 'bg-brand'      },
-  'under-review': { label: 'Under Review', bg: 'bg-warning/10',                          text: 'text-warning',      border: 'border-warning/30',                         dot: 'bg-warning'    },
-  resolved:       { label: 'Resolved',     bg: 'bg-success/10',                          text: 'text-success',      border: 'border-success/30',                         dot: 'bg-success'    },
-  rejected:       { label: 'Rejected',     bg: 'bg-danger/10',                           text: 'text-danger',       border: 'border-edge-strong',                          dot: 'bg-danger'     },
+  'under-review': { label: 'Under Review', bg: 'bg-warning/50',                          text: 'text-warning',      border: 'border-warning/50',                         dot: 'bg-warning'    },
+  resolved:       { label: 'Resolved',     bg: 'bg-success/50',                          text: 'text-success',      border: 'border-success/50',                         dot: 'bg-success'    },
+  rejected:       { label: 'Rejected',     bg: 'bg-danger/50',                           text: 'text-danger',       border: 'border-danger/50',                          dot: 'bg-danger'     },
 };
 
 /* ── Type Options ───────────────────────────────────────────── */
@@ -185,9 +185,9 @@ function StatusTracker({ status }) {
 function StatCard({ label, value, accent, icon }) {
   const accents = {
     brand:   'bg-brand-light text-brand',
-    warning: 'bg-warning/10 text-warning',
-    success: 'bg-success/10 text-success',
-    danger:  'bg-danger/10 text-danger',
+    warning: 'bg-warning/50 text-warning',
+    success: 'bg-success/50 text-success',
+    danger:  'bg-danger/50 text-danger',
     emerald: 'bg-success/10 text-success',
   };
   return (
